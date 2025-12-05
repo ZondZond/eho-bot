@@ -28,20 +28,9 @@
 > This project uses **Docker Compose** to run PostgreSQL, Redis, and pgAdmin.
 
 1. Clone the repository:
-
-```bash
-git clone https://github.com/kmsint/aiogram3_stepik_course.git
-```
 2. Move to the db_echo_bot folder:
-
-```bash
-cd aiogram3_stepik_course/db_echo_bot
-```
-
 3. Create **.env** file and copy the code from **.env.example** file into it.
-
 4. Fill in the file **.env** with real data (`BOT_TOKEN`, `POSTGRES_USER`, `POSTGRES_PASSWORD`, etc.)
-
 5. Launch containers with Postgres, Redis, and pgAdmin with the command (You need docker and docker-compose installed on your local machine):
 
 ```bash
@@ -97,11 +86,3 @@ python3 main.py
 
 - User status is updated to `is_alive=false` if the bot is blocked.
 - All roles and bans are DB-driven; no hardcoded access.
-
-## Feedback
-
-Have ideas or issues? Open a GitHub Issue or contact the maintainer.
-
-## License
-
-This project is licensed under the **MIT License**.
