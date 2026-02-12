@@ -61,6 +61,20 @@ async def main():
                             ON activity (user_id, activity_date);
                         """
                     )
+                    await cursor.execute(
+                        query="""
+                            CREATE TABLE IF NOT EXISTS userstrainings(
+                                id SERIAL PRIMARY KEY,
+                                user_id BIGINT NOT NULL UNIQUE,
+                                username VARCHAR(50),
+                                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                                language VARCHAR(10) NOT NULL,
+                                role VARCHAR(30) NOT NULL,
+                                is_alive BOOLEAN NOT NULL,
+                                banned BOOLEAN NOT NULL
+                            );
+                        """
+                    )
                 logger.info("Tables `users` and `activity` were successfully created")
     except Error as db_error:
         logger.exception("Database-specific error: %s", db_error)
