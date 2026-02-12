@@ -61,7 +61,23 @@ async def main():
                             ON activity (user_id, activity_date);
                         """
                     )
-                logger.info("Tables `users` and `activity` were successfully created")
+                    await cursor.execute(
+                        query="""
+                            CREATE TABLE IF NOT EXISTS trainings(
+                                id SERIAL PRIMARY KEY,
+                                user_id BIGINT REFERENCES users(user_id),
+                                distance INT NOT NULL DEFAULT 1,
+                                pace INT NOT NULL DEFAULT 1,
+                                location VARCHAR(100) NOT NULL,
+                                city VARCHAR(100) NOT NULL,
+                                created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+                                activity_date DATE NOT NULL DEFAULT CURRENT_DATE,
+                            );
+                            CREATE UNIQUE INDEX IF NOT EXISTS idx_activity_user_day
+                            ON activity (user_id, activity_date);
+                        """
+                    )
+                logger.info("Tables `users`, `activity` and 'trainings' were successfully created")
     except Error as db_error:
         logger.exception("Database-specific error: %s", db_error)
     except Exception as e:

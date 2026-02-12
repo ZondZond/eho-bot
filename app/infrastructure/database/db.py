@@ -284,3 +284,45 @@ async def get_statistics(conn: AsyncConnection) -> list[Any, ...] | None:
         rows = await data.fetchall()
     logger.info("Users activity got from table=`activity`")
     return [*rows] if rows else None
+
+
+async def add_training(
+    conn: AsyncConnection,
+    *,
+    user_id: int,
+    distance: int,
+    pace: int,
+    location: str | None = None,
+    city: str | None = None
+) -> None:
+    async with conn.cursor() as cursor:
+        await cursor.execute(
+            query="""
+                INSERT INTO trainings(user_id, distance, pace, location, city)
+                VALUES(
+                    %(user_id)s,
+                    %(distance)s,
+                    %(pace)s,
+                    %(location)s,
+                    %(city)s
+                ) ON CONFLICT DO NOTHING;
+            """,
+            params={
+                "user_id": user_id,
+                "distance": distance,
+                "pace": pace,
+                "location": location,
+                "city": city
+            },
+        )
+    logger.info(
+        "User added. Table=`%s`, user_id=%d, created_at='%s', "
+        "distance='%s', pace=%s, location=%s, city=%s",
+        "users",
+        user_id,
+        datetime.now(timezone.utc),
+        distance,
+        pace,
+        location,
+        city,
+    )
